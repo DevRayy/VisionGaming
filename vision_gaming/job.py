@@ -1,4 +1,4 @@
-from vision_gaming.utils import grab_screen
+from vision_gaming.grabber import grab_screen
 
 
 class Job:
@@ -9,7 +9,7 @@ class Job:
         self.identify_fcn = identify
 
     def do(self):
-        screen = grab_screen()
+        screen = grab_screen(self.screen_rect)
         for fcn in self.process_fcns:
             screen = fcn(screen)
         return self.identify_fcn(screen)
