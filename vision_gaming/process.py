@@ -21,3 +21,9 @@ def convert_color(converter):
     def convert_color_wrapped(screen):
         return cv2.cvtColor(screen, converter)
     return convert_color_wrapped
+
+
+def binary_threshold(thresh, max):
+    def binary_threshold_wrapped(screen):
+        return (cv2.threshold(screen, thresh, max, cv2.THRESH_BINARY))[1]
+    return binary_threshold_wrapped
