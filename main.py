@@ -1,21 +1,24 @@
 import time
 from cv2 import cv2
 
-from vision_gaming.identify import debug_identifier
-from vision_gaming.process import show_screen, resize, convert_color
+from vision_gaming.process import show_screen, resize, convert_color, binary_threshold
+from vision_gaming.identify import tesseract
 from vision_gaming.vision_system import VisionSystem as VS
 from vision_gaming.job import Job
 
 
 # job data
-screen_rect = (3, 400, 1020, 570)
+screen_rect = (3, 3, 100, 30)
 prc = [convert_color(cv2.COLOR_BGR2RGB),
        show_screen('original'),
        resize((200, 200)),
        show_screen('resized'),
        convert_color(cv2.COLOR_RGB2GRAY),
+       binary_threshold(200, 255),
        show_screen('greyscale')]
-iden = debug_identifier('DEBUG')
+tess_exe = 'C:/Soft/Tesseract-OCR/tesseract.exe'
+tess_dir_cfg = '--tessdata-dir "C:/Soft/Tesseract-OCR/tessdata"'
+iden = tesseract(tess_exe, tess_dir_cfg)
 
 # creating a Job
 j = Job(screen_rect=screen_rect, process=prc, identify=iden)
