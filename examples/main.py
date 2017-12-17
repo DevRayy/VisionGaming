@@ -8,7 +8,7 @@ from vision_gaming.job import Job
 
 
 # job data
-screen_rect = (3, 3, 100, 30)
+screen_rect = (3, 3, 300, 300)
 prc = [convert_color(cv2.COLOR_BGR2RGB),
        show_screen('original'),
        resize((200, 200)),
@@ -16,8 +16,8 @@ prc = [convert_color(cv2.COLOR_BGR2RGB),
        convert_color(cv2.COLOR_RGB2GRAY),
        binary_threshold(200, 255),
        show_screen('greyscale')]
-tess_exe = 'C:/Soft/Tesseract-OCR/tesseract.exe'
-tess_dir_cfg = '--tessdata-dir "C:/Soft/Tesseract-OCR/tessdata"'
+tess_exe = 'C:/Program Files (x86)/Tesseract-OCR/tesseract.exe'
+tess_dir_cfg = '--tessdata-dir "C:/Program Files (x86)/Tesseract-OCR/tessdata"'
 iden = tesseract(tess_exe, tess_dir_cfg)
 
 # creating a Job
