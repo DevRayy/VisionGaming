@@ -8,13 +8,13 @@ from vision_gaming.job import Job
 
 
 # job data
-screen_rect = (100, 100, 400, 400)
+screen_rect = (1, 1, 400, 400)
 prc = [convert_color(cv2.COLOR_BGR2RGB),
        show_screen('original'),
        convert_color(cv2.COLOR_RGB2GRAY),
        binary_threshold(200, 255)]
 template = cv2.imread('7.jpg', 0)
-iden = match_template(template)
+iden = match_template(template, show_result=True)
 
 # creating a Job
 j = Job(screen_rect=screen_rect, process=prc, identify=iden)
