@@ -1,6 +1,7 @@
 from cv2 import cv2
 import pytesseract
 from PIL import Image
+import numpy as np
 
 
 def debug_identifier(message):
@@ -29,3 +30,20 @@ def match_template(template_image, method=cv2.TM_CCOEFF, show_result=False):
             cv2.imshow('Template identification', input)
         return max_val, max_loc
     return match_template_wrapped
+
+
+def match_template_multiple(template_image, threshold=0.9, method=cv2.TM_CCOEFF_NORMED, show_result=False):
+    def match_template_multiple_wrapped(input):
+        res = cv2.matchTemplate(input, template_image, method)
+        loc = np.where(res >= threshold) if method not in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED] else np.where(res <= threshold)
+        points = zip(*loc[::-1])
+        pts = [(pt[0], pt[1]) for pt in points]
+        if show_result:
+            w, h = template_image.shape[::-1]
+            for pt in pts:
+                cv2.rectangle(input, pt, (pt[0]+w, pt[1]+h), 255, 2)
+            cv2.imshow('Template identification', input)
+        return pts
+    return match_template_multiple_wrapped
+
+
