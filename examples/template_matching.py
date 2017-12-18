@@ -2,25 +2,24 @@ import time
 from cv2 import cv2
 
 from vision_gaming.process import show_screen, resize, convert_color, binary_threshold
-from vision_gaming.identify import tesseract, match_template, match_template_multiple
+from vision_gaming.identify import tesseract, match_template, match_template_multiple, match_number
 from vision_gaming.vision_system import VisionSystem as VS
 from vision_gaming.job import Job
 
 
 # job data
-screen_rect = (1, 600, 400, 1000)
-prc = [convert_color(cv2.COLOR_BGR2RGB),
-       show_screen('original'),
-       convert_color(cv2.COLOR_RGB2GRAY),
+screen_rect = (200, 800, 250, 850)
+prc = [convert_color(cv2.COLOR_BGR2GRAY),
        binary_threshold(200, 255)]
-template = cv2.imread('4.jpg', 0)
-iden = match_template_multiple(template, show_result=True)
+
+templates = [cv2.imread('{}.jpg'.format(i), 0) for i in range(0, 10)]
+iden = match_number(templates, range(0, 10))
 
 # creating a Job
 j = Job(screen_rect=screen_rect, process=prc, identify=iden)
 
 # creating VisionSystem
-system = VS(wait=0.1)
+system = VS()
 
 # registering a Job
 system.register_job('job1', j)

@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from cv2 import cv2
 import pytesseract
 from PIL import Image
@@ -45,5 +47,22 @@ def match_template_multiple(template_image, threshold=0.9, method=cv2.TM_CCOEFF_
             cv2.imshow('Template identification', input)
         return pts
     return match_template_multiple_wrapped
+
+
+def match_number(templates, values, threshold=0.85, method=cv2.TM_CCOEFF_NORMED):
+    def match_number_wrapped(input):
+        fcns = [match_template_multiple(template, threshold, method) for template in templates]
+        fvals = [fcn(input) for fcn in fcns]
+        x_to_val = {}
+        for i in range(len(fvals)): # i = val
+            for j in range(len(fvals[i])): # j = point
+                x_to_val[fvals[i][j][0]] = values[i]
+        digits = [v for v in OrderedDict(sorted(x_to_val.items())).values()]
+        digit_count = len(digits)
+        result = 0
+        for i in range(digit_count):
+            result += digits[i] * 10**(digit_count - i - 1)
+        return result
+    return match_number_wrapped
 
 
