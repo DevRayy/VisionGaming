@@ -9,10 +9,8 @@ class Job:
         self.identify_fcn = identify
 
     def do(self):
-        start = time.time()
         screen = grab_screen(self.screen_rect)
         for fcn in self.process_fcns:
             screen = fcn(screen)
         result = self.identify_fcn(screen)
-        print('time = {}'.format(time.time() - start))
         return result
