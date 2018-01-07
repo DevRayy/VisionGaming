@@ -9,8 +9,7 @@ from vision_gaming.job import Job
 
 # job data
 screen_rect = (180, 100, 500, 190)
-prc = [convert_color(cv2.COLOR_BGR2GRAY),
-       show_screen('original')]
+prc = []
 tess_exe = 'C:/Program Files (x86)/Tesseract-OCR/tesseract.exe'
 tess_dir_cfg = '--tessdata-dir "C:/Program Files (x86)/Tesseract-OCR/tessdata"'
 iden = tesseract(tess_exe, tess_dir_cfg)
